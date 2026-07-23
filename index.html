@@ -629,12 +629,15 @@ ul{list-style:none}
       <div id="adminLogin" class="admin-login glass-card">
         <div class="admin-login-icon"><i class="fas fa-shield-halved"></i></div>
         <h2>Admin Access</h2>
-        <p>Enter password to access the dashboard.</p>
+        <p>Enter the admin email and password to access the dashboard.</p>
         <div class="form-group">
-          <input type="password" id="adminPassword" placeholder="Password" class="admin-pw-input">
+          <input type="email" id="adminEmail" placeholder="Admin email" class="admin-pw-input" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <input type="password" id="adminPassword" placeholder="Password" class="admin-pw-input" autocomplete="current-password">
         </div>
         <button class="btn btn-primary btn-full" id="adminLoginBtn">Unlock Dashboard</button>
-        <p class="admin-hint">Sign in with the admin account created in Firebase Authentication.</p>
+        <p class="admin-hint">Use the email/password of the admin account you created in Firebase Authentication.</p>
       </div>
       <!-- Admin Dashboard -->
       <div id="adminDashboard" style="display:none">
@@ -860,10 +863,8 @@ const DEFAULT_DATA = {
   ]
 };
 
-// The email of the Firebase Auth user you create for yourself in the
-// Firebase Console (Authentication > Users > Add user). The admin login
-// form only asks for a password; it's paired with this fixed email.
-const ADMIN_EMAIL = 'YOUR_ADMIN_EMAIL@example.com';
+// The admin login form now accepts the email/password from the user input.
+// Create the admin user in Firebase Console > Authentication > Users.
 
 // Automatically fingerprints DEFAULT_DATA — no manual version number needed.
 // Any time you edit DEFAULT_DATA in the code, this hash changes on its own,
@@ -1374,23 +1375,39 @@ function initContactForm() {
    ═══════════════════════════════════════ */
 function initAdmin() {
   document.getElementById('adminLoginBtn').addEventListener('click', () => {
-    const input = document.getElementById('adminPassword');
-    const pw = input.value;
+    const emailInput = document.getElementById('adminEmail');
+    const passwordInput = document.getElementById('adminPassword');
+    const email = emailInput.value.trim();
+    const pw = passwordInput.value;
+
+    if (!email || !pw) {
+      alert('Please enter both your admin email and password.');
+      return;
+    }
+
     if (!window.FB || !window.FB.ready) {
       alert('Firebase isn\'t configured yet — add your firebaseConfig in the code first.');
       return;
     }
+
     const btn = document.getElementById('adminLoginBtn');
     btn.disabled = true;
-    window.FB.login(ADMIN_EMAIL, pw).then(() => {
+    window.FB.login(email, pw).then(() => {
       btn.disabled = false;
       // APP.adminAuth is set by the onAuthChange listener in initFirebaseSync(),
       // which also calls showAdminDashboard().
     }).catch(() => {
       btn.disabled = false;
-      input.style.borderColor = '#e74c3c';
-      input.style.boxShadow = '0 0 0 3px rgba(231,76,60,0.2)';
-      setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 2000);
+      emailInput.style.borderColor = '#e74c3c';
+      emailInput.style.boxShadow = '0 0 0 3px rgba(231,76,60,0.2)';
+      passwordInput.style.borderColor = '#e74c3c';
+      passwordInput.style.boxShadow = '0 0 0 3px rgba(231,76,60,0.2)';
+      setTimeout(() => {
+        emailInput.style.borderColor = '';
+        emailInput.style.boxShadow = '';
+        passwordInput.style.borderColor = '';
+        passwordInput.style.boxShadow = '';
+      }, 2000);
     });
   });
   document.getElementById('adminLogoutBtn').addEventListener('click', () => {
