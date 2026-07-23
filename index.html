@@ -634,10 +634,17 @@ ul{list-style:none}
           <input type="password" id="adminPassword" placeholder="Password" class="admin-pw-input">
         </div>
         <button class="btn btn-primary btn-full" id="adminLoginBtn">Unlock Dashboard</button>
-        <p class="admin-hint">Default password: <code>admin123</code></p>
+        <p class="admin-hint">Sign in with the admin account created in Firebase Authentication.</p>
       </div>
       <!-- Admin Dashboard -->
       <div id="adminDashboard" style="display:none">
+        <div class="admin-section-header" style="margin-bottom:16px">
+          <p style="color:var(--text2);font-size:0.85rem;max-width:520px">Changes you save here go straight to Firestore and update live for every visitor. <code>DEFAULT_DATA</code> in the code is just the initial seed / offline fallback.</p>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-outline btn-sm" id="exportDataBtn"><i class="fas fa-file-export"></i> Export Data</button>
+            <button class="btn btn-outline btn-sm" id="adminLogoutBtn"><i class="fas fa-right-from-bracket"></i> Logout</button>
+          </div>
+        </div>
         <div class="admin-tabs">
           <button class="admin-tab active" data-tab="admin-projects"><i class="fas fa-folder"></i> Projects</button>
           <button class="admin-tab" data-tab="admin-profile"><i class="fas fa-user"></i> Profile</button>
@@ -732,7 +739,59 @@ ul{list-style:none}
 <!-- BACK TO TOP -->
 <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<!-- ═══════════════════════════════════════
+     FIREBASE SETUP
+     Fill in YOUR config from Firebase Console
+     ═══════════════════════════════════════ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // TODO: paste your Firebase config object here (Project settings > General > Your apps > SDK setup)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCtNHsEfTt8O8qu248-FWEHFdSMgLHNCXw",
+    authDomain: "portfolio-d607a.firebaseapp.com",
+    projectId: "portfolio-d607a",
+    storageBucket: "portfolio-d607a.firebasestorage.app",
+    messagingSenderId: "1050239710993",
+    appId: "1:1050239710993:web:8a1327578434264b1f3eb0"
+  };
+
+  const fbApp = initializeApp(firebaseConfig);
+  const db = getFirestore(fbApp);
+  const auth = getAuth(fbApp);
+  const portfolioDocRef = doc(db, "portfolio", "data");
+
+  // Expose a small bridge so the classic (non-module) script below can use Firebase.
+  window.FB = {
+    ready: true,
+    getData: async () => {
+      const snap = await getDoc(portfolioDocRef);
+      return snap.exists() ? snap.data() : null;
+    },
+    saveData: async (data) => {
+      await setDoc(portfolioDocRef, JSON.parse(JSON.stringify(data)));
+    },
+    listen: (callback) => {
+      return onSnapshot(portfolioDocRef, (snap) => {
+        if (snap.exists()) callback(snap.data());
+      }, (err) => console.warn('Firestore listen error:', err));
+    },
+    login: (email, password) => signInWithEmailAndPassword(auth, email, password),
+    logout: () => signOut(auth),
+    onAuthChange: (callback) => onAuthStateChanged(auth, callback)
+  };
+  window.dispatchEvent(new Event('firebase-ready'));
+</script>
+
+<script>
 /* ═══════════════════════════════════════
    DATA STORE & DEFAULT DATA
    ═══════════════════════════════════════ */
@@ -801,17 +860,114 @@ const DEFAULT_DATA = {
   ]
 };
 
-const ADMIN_PASSWORD = '@barcelona18052006@';
+// The email of the Firebase Auth user you create for yourself in the
+// Firebase Console (Authentication > Users > Add user). The admin login
+// form only asks for a password; it's paired with this fixed email.
+const ADMIN_EMAIL = 'YOUR_ADMIN_EMAIL@example.com';
 
+// Automatically fingerprints DEFAULT_DATA — no manual version number needed.
+// Any time you edit DEFAULT_DATA in the code, this hash changes on its own,
+// which invalidates the local browser cache so code edits are never masked
+// by a stale cached copy while Firestore is unreachable.
+function hashData(obj) {
+  const str = JSON.stringify(obj);
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0; // keep it a 32-bit int
+  }
+  return String(hash);
+}
+const DATA_VERSION = hashData(DEFAULT_DATA);
+
+// Instant-paint cache: read whatever we have locally (Firestore's last known
+// value, or DEFAULT_DATA) so the page renders immediately without waiting on
+// a network round trip. The real source of truth is Firestore — see
+// initFirebaseSync() below, which fetches fresh data and subscribes to
+// live updates as soon as Firebase is ready.
 function loadData() {
   try {
+    const savedVersion = localStorage.getItem('portfolio_data_version');
     const saved = localStorage.getItem('portfolio_data');
-    if (saved) return JSON.parse(saved);
+    if (saved && savedVersion === DATA_VERSION) {
+      return JSON.parse(saved);
+    }
   } catch(e) {}
   return JSON.parse(JSON.stringify(DEFAULT_DATA));
 }
+
+// Saves locally (cache) immediately, then pushes to Firestore so every
+// visitor sees the change. Firestore writes require an authenticated admin
+// (see the Firestore security rules in the setup instructions).
 function saveData() {
-  try { localStorage.setItem('portfolio_data', JSON.stringify(APP.data)); } catch(e) {}
+  try {
+    localStorage.setItem('portfolio_data', JSON.stringify(APP.data));
+    localStorage.setItem('portfolio_data_version', DATA_VERSION);
+  } catch(e) {}
+  if (window.FB && window.FB.ready) {
+    window.FB.saveData(APP.data).catch(err => {
+      console.error('Firestore save failed:', err);
+      alert('Saved locally, but could not sync to the cloud: ' + err.message + '\nMake sure you are logged in as admin and your Firestore rules allow it.');
+    });
+  }
+}
+
+// Pulls the latest data from Firestore on load, and subscribes to realtime
+// updates so every open tab/device reflects admin edits instantly — no
+// refresh needed. Falls back silently to the local/DEFAULT_DATA copy if
+// Firebase isn't configured yet or the network is unavailable.
+let _fbSyncStarted = false;
+function initFirebaseSync() {
+  if (_fbSyncStarted || !window.FB || !window.FB.ready) return;
+  _fbSyncStarted = true;
+
+  window.FB.getData().then(cloudData => {
+    if (cloudData) {
+      APP.data = cloudData;
+      try {
+        localStorage.setItem('portfolio_data', JSON.stringify(APP.data));
+        localStorage.setItem('portfolio_data_version', DATA_VERSION);
+      } catch(e) {}
+      rerenderAll();
+    }
+  }).catch(err => console.warn('Could not fetch Firestore data (using local copy):', err));
+
+  window.FB.listen(cloudData => {
+    APP.data = cloudData;
+    try { localStorage.setItem('portfolio_data', JSON.stringify(APP.data)); } catch(e) {}
+    rerenderAll();
+  });
+
+  // Keep the admin dashboard logged in across refreshes, and gate write
+  // access on a real Firebase Auth session rather than a client-side check.
+  window.FB.onAuthChange(user => {
+    APP.adminAuth = !!user;
+    if (APP.currentPage === 'admin') {
+      if (APP.adminAuth) showAdminDashboard();
+      else {
+        document.getElementById('adminDashboard').style.display = 'none';
+        document.getElementById('adminLogin').style.display = 'block';
+      }
+    }
+  });
+}
+
+// Re-renders whatever is currently on screen after data changes, without
+// resetting scroll position or navigating away from the current page.
+function rerenderAll() {
+  populateHero();
+  renderSocialLinks();
+  updateFooter();
+  if (APP.currentPage === 'home') renderFeatured();
+  else if (APP.currentPage === 'projects') { renderProjects(); buildFilterChips(); }
+  else if (APP.currentPage === 'skills') renderSkills();
+  else if (APP.currentPage === 'about') populateAbout();
+  else if (APP.currentPage === 'contact') populateContact();
+  if (APP.adminAuth && document.getElementById('adminDashboard').style.display !== 'none') {
+    populateAdminProfile();
+    renderAdminProjects();
+    renderAdminSkills();
+  }
 }
 
 const APP = {
@@ -1218,16 +1374,27 @@ function initContactForm() {
    ═══════════════════════════════════════ */
 function initAdmin() {
   document.getElementById('adminLoginBtn').addEventListener('click', () => {
-    const pw = document.getElementById('adminPassword').value;
-    if (pw === ADMIN_PASSWORD) {
-      APP.adminAuth = true;
-      showAdminDashboard();
-    } else {
-      const input = document.getElementById('adminPassword');
+    const input = document.getElementById('adminPassword');
+    const pw = input.value;
+    if (!window.FB || !window.FB.ready) {
+      alert('Firebase isn\'t configured yet — add your firebaseConfig in the code first.');
+      return;
+    }
+    const btn = document.getElementById('adminLoginBtn');
+    btn.disabled = true;
+    window.FB.login(ADMIN_EMAIL, pw).then(() => {
+      btn.disabled = false;
+      // APP.adminAuth is set by the onAuthChange listener in initFirebaseSync(),
+      // which also calls showAdminDashboard().
+    }).catch(() => {
+      btn.disabled = false;
       input.style.borderColor = '#e74c3c';
       input.style.boxShadow = '0 0 0 3px rgba(231,76,60,0.2)';
       setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 2000);
-    }
+    });
+  });
+  document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+    if (window.FB && window.FB.ready) window.FB.logout();
   });
   // Tabs
   document.querySelectorAll('.admin-tab').forEach(tab => {
@@ -1237,6 +1404,26 @@ function initAdmin() {
       tab.classList.add('active');
       document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
     });
+  });
+  // Export data (for pasting into DEFAULT_DATA in the code)
+  document.getElementById('exportDataBtn').addEventListener('click', () => {
+    const json = JSON.stringify(APP.data, null, 2);
+    const fileContent = 'const DEFAULT_DATA = ' + json + ';\n';
+    // Try to copy to clipboard as a convenience
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fileContent).catch(() => {});
+    }
+    // Also trigger a download so it's easy to open/paste from
+    const blob = new Blob([fileContent], { type: 'text/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'portfolio-default-data.js';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert('Data exported! A file "portfolio-default-data.js" was downloaded (and copied to your clipboard if supported). Paste its contents over the DEFAULT_DATA object in your code — the version fingerprint updates automatically, no extra steps needed.');
   });
   // Add project
   document.getElementById('addProjectBtn').addEventListener('click', () => openProjectModal());
@@ -1284,6 +1471,14 @@ function showAdminDashboard() {
   renderAdminProjects();
   renderAdminSkills();
   populateSocialFields();
+
+  // First-ever login: if Firestore has no document yet, seed it with
+  // whatever data is currently loaded (DEFAULT_DATA) so the cloud copy exists.
+  if (window.FB && window.FB.ready) {
+    window.FB.getData().then(cloudData => {
+      if (!cloudData) window.FB.saveData(APP.data).catch(err => console.error('Seed failed:', err));
+    }).catch(() => {});
+  }
 }
 
 function populateAdminProfile() {
@@ -1532,6 +1727,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursor();
   startTyping();
   updateFooter();
+  initFirebaseSync();
+  window.addEventListener('firebase-ready', initFirebaseSync);
 
   // Hash routing
   const hash = location.hash.replace('#', '') || 'home';
