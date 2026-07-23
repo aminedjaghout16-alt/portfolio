@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Developer Portfolio — Full-Stack Developer & Creative Technologist crafting premium digital experiences.">
-<meta name="keywords" content="developer, portfolio, full-stack, web development, projects">
-<meta name="author" content="Portfolio">
-<meta property="og:title" content="Portfolio — Developer & Creative Technologist">
-<meta property="og:description" content="Premium developer portfolio showcasing projects, skills, and experience.">
+<meta name="description" content="Amine Djaghout — Software Engineering Student | Full-Stack Web Developer building modern, responsive web applications.">
+<meta name="keywords" content="Amine Djaghout, developer, portfolio, full-stack, web development, projects, Algeria">
+<meta name="author" content="Amine Djaghout">
+<meta property="og:title" content="Amine Djaghout — Software Engineering Student | Full-Stack Web Developer">
+<meta property="og:description" content="Portfolio showcasing projects, skills, and experience in full-stack web development.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<title>Portfolio — Developer & Creative Technologist</title>
+<title>Amine Djaghout — Software Engineering Student | Full-Stack Web Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -163,6 +163,8 @@ ul{list-style:none}
 .project-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
 .project-card:hover .project-card-img img{transform:scale(1.05)}
 .project-card-badge{position:absolute;top:14px;right:14px;background:var(--accent);color:#fff;font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:1px}
+.project-card-badge-soon{position:absolute;top:14px;left:14px;background:var(--bg);border:1px solid var(--accent);color:var(--accent);font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:1px}
+.detail-badge-soon{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--accent);color:var(--accent);font-size:0.78rem;font-weight:700;padding:6px 16px;border-radius:100px;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
 .project-card-body{padding:24px}
 .project-card-title{font-family:var(--font-display);font-size:1.25rem;font-weight:700;margin-bottom:8px}
 .project-card-desc{color:var(--text2);font-size:0.9rem;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -379,7 +381,7 @@ ul{list-style:none}
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="#home" class="nav-logo" data-route="home">
-      <span class="logo-bracket">&lt;</span><span class="logo-name">DEV</span><span class="logo-bracket">/&gt;</span>
+      <span class="logo-bracket">&lt;</span><span class="logo-name">AD</span><span class="logo-bracket">/&gt;</span>
     </a>
     <div class="nav-links" id="navLinks">
       <a href="#home" data-route="home" class="nav-link active">Home</a>
@@ -431,7 +433,7 @@ ul{list-style:none}
         <div class="stat-divider"></div>
         <div class="stat"><span class="stat-num" id="statProjects">30+</span><span class="stat-label">Projects</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num" id="statClients">20+</span><span class="stat-label">Clients</span></div>
+        <div class="stat"><span class="stat-num" id="statClients">20+</span><span class="stat-label">Technologies</span></div>
       </div>
     </div>
     <div class="hero-scroll-indicator">
@@ -522,6 +524,7 @@ ul{list-style:none}
             <div class="about-detail"><i class="fas fa-map-marker-alt"></i><span id="aboutLocation">San Francisco, CA</span></div>
             <div class="about-detail"><i class="fas fa-envelope"></i><span id="aboutEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="076f626b6b6847666b627f6a687560666929636271">[email&#160;protected]</a></span></div>
             <div class="about-detail"><i class="fas fa-briefcase"></i><span id="aboutStatus">Open to opportunities</span></div>
+            <div class="about-detail"><i class="fas fa-phone"></i><span id="aboutPhone">+213 673 712 323</span></div>
           </div>
           <div class="about-ctas">
             <a href="#contact" data-route="contact" class="btn btn-primary">Let's Talk <i class="fas fa-arrow-right"></i></a>
@@ -572,6 +575,10 @@ ul{list-style:none}
             <div class="contact-method">
               <div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div>
               <div><strong>Location</strong><br><span id="contactLocation">San Francisco, CA</span></div>
+            </div>
+            <div class="contact-method">
+              <div class="contact-method-icon"><i class="fas fa-phone"></i></div>
+              <div><strong>Phone</strong><br><span id="contactPhone">+213 673 712 323</span></div>
             </div>
           </div>
           <div class="social-links" id="socialLinks">
@@ -659,9 +666,13 @@ ul{list-style:none}
               <div class="form-group"><label>Email</label><input type="email" id="pEmail"></div>
             </div>
             <div class="form-row">
+              <div class="form-group"><label>Phone</label><input type="text" id="pPhone"></div>
+              <div class="form-group"><label>Status</label><input type="text" id="pStatus"></div>
+            </div>
+            <div class="form-row">
               <div class="form-group"><label>Years Experience</label><input type="text" id="pYears"></div>
               <div class="form-group"><label>Total Projects</label><input type="text" id="pTotalProjects"></div>
-              <div class="form-group"><label>Total Clients</label><input type="text" id="pTotalClients"></div>
+              <div class="form-group"><label>Technologies</label><input type="text" id="pTotalClients"></div>
             </div>
             <div class="form-group"><label>About Heading</label><input type="text" id="pAboutHeading"></div>
             <button type="submit" class="btn btn-primary">Save Profile</button>
@@ -693,7 +704,7 @@ ul{list-style:none}
   <div class="container">
     <div class="footer-content">
       <div class="footer-brand">
-        <span class="logo-bracket">&lt;</span><span class="logo-name">DEV</span><span class="logo-bracket">/&gt;</span>
+        <span class="logo-bracket">&lt;</span><span class="logo-name">AD</span><span class="logo-bracket">/&gt;</span>
         <p id="footerText">Crafting digital experiences with passion.</p>
       </div>
       <div class="footer-links">
@@ -727,59 +738,70 @@ ul{list-style:none}
    ═══════════════════════════════════════ */
 const DEFAULT_DATA = {
   profile: {
-    name: 'Alex Morgan',
-    role: 'Full-Stack Developer',
-    bio: "I'm a full-stack developer with 5+ years of experience creating digital products that combine beautiful design with robust engineering. My journey started with curiosity about how things work on the web, and it has evolved into a deep passion for creating seamless user experiences and scalable systems. When I'm not coding, you'll find me exploring new technologies, contributing to open source, or sharing knowledge with the developer community.",
-    location: 'San Francisco, CA',
-    email: 'hello@alexmorgan.dev',
-    status: 'Open to opportunities',
-    years: '5+',
-    totalProjects: '30+',
-    totalClients: '20+',
+    name: 'Amine Djaghout',
+    role: 'Software Engineering Student | Full-Stack Web Developer',
+    bio: "I'm a software engineering student from Algeria with a passion for building modern, responsive, and user-friendly web applications. I enjoy turning ideas into real products using modern technologies and continuously improving my skills through hands-on projects. My goal is to create high-quality software with clean design and great user experiences.",
+    location: 'Guelma, Algeria',
+    email: 'aminedjaghout0@gmail.com',
+    phone: '+213 673 712 323',
+    status: 'Open to Internship Opportunities & Freelance Projects',
+    years: '1+',
+    totalProjects: '3+',
+    totalClients: '25+',
     aboutHeading: 'Passionate about building things that matter'
   },
   skills: [
     { id: 's1', category: 'Frontend', icon: 'fa-code', items: [
-      { name: 'React / Next.js', icon: 'fa-brands fa-react', level: 95 },
-      { name: 'TypeScript', icon: 'fa-brands fa-js', level: 90 },
-      { name: 'Tailwind CSS', icon: 'fa-brands fa-css3-alt', level: 92 },
-      { name: 'Vue.js', icon: 'fa-brands fa-vuejs', level: 80 }
+      { name: 'HTML5', icon: 'fa-brands fa-html5', level: 90 },
+      { name: 'CSS3', icon: 'fa-brands fa-css3-alt', level: 88 },
+      { name: 'JavaScript', icon: 'fa-brands fa-js', level: 85 },
+      { name: 'TypeScript', icon: 'fa-solid fa-code', level: 75 },
+      { name: 'React', icon: 'fa-brands fa-react', level: 85 },
+      { name: 'Next.js', icon: 'fa-solid fa-bolt', level: 80 },
+      { name: 'Tailwind CSS', icon: 'fa-solid fa-wind', level: 88 }
     ]},
     { id: 's2', category: 'Backend', icon: 'fa-server', items: [
-      { name: 'Node.js', icon: 'fa-brands fa-node-js', level: 92 },
-      { name: 'Python / Django', icon: 'fa-brands fa-python', level: 85 },
-      { name: 'PostgreSQL', icon: 'fa-database', level: 88 },
-      { name: 'GraphQL', icon: 'fa-project-diagram', level: 82 }
+      { name: 'Node.js', icon: 'fa-brands fa-node-js', level: 75 },
+      { name: 'Express.js', icon: 'fa-solid fa-server', level: 70 },
+      { name: 'Firebase', icon: 'fa-solid fa-fire', level: 80 },
+      { name: 'Supabase', icon: 'fa-solid fa-bolt', level: 75 },
+      { name: 'REST APIs', icon: 'fa-solid fa-plug', level: 78 }
     ]},
-    { id: 's3', category: 'DevOps & Tools', icon: 'fa-cloud', items: [
-      { name: 'Docker', icon: 'fa-brands fa-docker', level: 85 },
-      { name: 'AWS', icon: 'fa-brands fa-aws', level: 80 },
-      { name: 'CI/CD', icon: 'fa-code-branch', level: 88 },
-      { name: 'Git', icon: 'fa-brands fa-git-alt', level: 95 }
+    { id: 's3', category: 'Databases', icon: 'fa-database', items: [
+      { name: 'PostgreSQL', icon: 'fa-solid fa-database', level: 70 },
+      { name: 'Firestore', icon: 'fa-solid fa-cloud', level: 78 },
+      { name: 'MySQL', icon: 'fa-solid fa-database', level: 65 }
     ]},
-    { id: 's4', category: 'Design', icon: 'fa-palette', items: [
-      { name: 'Figma', icon: 'fa-brands fa-figma', level: 88 },
-      { name: 'UI/UX Design', icon: 'fa-pen-ruler', level: 82 },
-      { name: 'Motion Design', icon: 'fa-film', level: 75 }
+    { id: 's4', category: 'Tools', icon: 'fa-toolbox', items: [
+      { name: 'Git', icon: 'fa-brands fa-git-alt', level: 85 },
+      { name: 'GitHub', icon: 'fa-brands fa-github', level: 85 },
+      { name: 'VS Code', icon: 'fa-solid fa-code', level: 90 },
+      { name: 'Prisma', icon: 'fa-solid fa-layer-group', level: 65 },
+      { name: 'Vercel', icon: 'fa-solid fa-cloud-arrow-up', level: 80 },
+      { name: 'Figma', icon: 'fa-brands fa-figma', level: 70 }
+    ]},
+    { id: 's5', category: 'Other', icon: 'fa-layer-group', items: [
+      { name: 'Responsive Web Design', icon: 'fa-solid fa-mobile-screen', level: 90 },
+      { name: 'UI/UX Design', icon: 'fa-solid fa-pen-ruler', level: 78 },
+      { name: 'Authentication Systems', icon: 'fa-solid fa-lock', level: 75 },
+      { name: 'Real-Time Applications', icon: 'fa-solid fa-bolt', level: 78 },
+      { name: 'API Integration', icon: 'fa-solid fa-plug', level: 80 },
+      { name: 'Performance Optimization', icon: 'fa-solid fa-gauge-high', level: 72 }
     ]}
   ],
   socials: [
-    { platform: 'GitHub', icon: 'fa-brands fa-github', url: 'https://github.com' },
-    { platform: 'LinkedIn', icon: 'fa-brands fa-linkedin-in', url: 'https://linkedin.com' },
-    { platform: 'Twitter', icon: 'fa-brands fa-twitter', url: 'https://twitter.com' },
-    { platform: 'Dribbble', icon: 'fa-brands fa-dribbble', url: 'https://dribbble.com' }
+    { platform: 'GitHub', icon: 'fa-brands fa-github', url: 'https://github.com/aminedjaghout16-alt/' },
+    { platform: 'Instagram', icon: 'fa-brands fa-instagram', url: 'https://instagram.com/minou._3' },
+    { platform: 'Portfolio', icon: 'fa-solid fa-globe', url: 'https://portfolio-coral-three-ofmjgobi7c.vercel.app/' }
   ],
   projects: [
-    { id: 'p1', title: 'NovaPay', description: 'A modern fintech dashboard with real-time analytics, transaction management, and AI-powered fraud detection. Built for scale with a sleek, intuitive interface.', fullDescription: 'NovaPay is a comprehensive fintech platform designed to simplify complex financial operations. The dashboard features real-time analytics with interactive charts, a transaction management system supporting multi-currency operations, and an AI-powered fraud detection engine that processes thousands of transactions per second. The interface is built with accessibility and usability at its core, featuring customizable widgets and dark mode support.', category: 'Web App', techs: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Stripe API', 'D3.js'], featured: true, liveUrl: '#', githubUrl: '#', images: [], color: '#ff6a00' },
-    { id: 'p2', title: 'Bloom Studio', description: 'Creative agency portfolio with immersive 3D elements, parallax scrolling, and a custom CMS for managing case studies and team content.', fullDescription: 'Bloom Studio is a premium creative agency website that pushes the boundaries of web design. Featuring WebGL-powered 3D scene transitions, buttery-smooth parallax scrolling powered by GSAP, and a headless CMS integration that allows the team to manage case studies, portfolios, and blog content without touching code. The site loads in under 2 seconds despite its rich visual experience.', category: 'Website', techs: ['Next.js', 'Three.js', 'GSAP', 'Sanity CMS', 'Vercel'], featured: true, liveUrl: '#', githubUrl: '#', images: [], color: '#00d4aa' },
-    { id: 'p3', title: 'HealthPulse', description: 'Health & fitness tracking app with personalized workout plans, nutrition logging, and integration with wearable devices for real-time biometric data.', fullDescription: 'HealthPulse is a comprehensive health and wellness platform that combines workout tracking, nutrition planning, and biometric monitoring into a single seamless experience. The app syncs with popular wearables including Apple Watch, Fitbit, and Garmin devices, providing users with actionable insights based on their real-time health data. Machine learning algorithms adapt workout plans based on user progress and recovery metrics.', category: 'Mobile App', techs: ['React Native', 'Python', 'FastAPI', 'MongoDB', 'TensorFlow'], featured: true, liveUrl: '#', githubUrl: '#', images: [], color: '#7c3aed' },
-    { id: 'p4', title: 'CodeSync', description: 'Real-time collaborative code editor supporting 20+ languages with live cursors, integrated terminal, and built-in video chat for remote pair programming.', fullDescription: 'CodeSync brings the power of collaborative editing to software development. Think Google Docs but for code — with support for over 20 programming languages, real-time cursor tracking, conflict resolution via CRDT, an integrated terminal with shared sessions, and built-in video/voice chat. The platform uses WebSocket connections for sub-50ms latency and includes a VS Code extension for those who prefer their existing editor.', category: 'Web App', techs: ['Vue.js', 'WebSocket', 'Rust', 'Redis', 'WebRTC', 'Docker'], featured: false, liveUrl: '#', githubUrl: '#', images: [], color: '#2563eb' },
-    { id: 'p5', title: 'Atlas Maps', description: 'Interactive geospatial data visualization tool for urban planning, featuring custom map layers, demographic overlays, and predictive modeling.', fullDescription: 'Atlas Maps is a powerful geospatial visualization tool built for urban planners and data analysts. It supports custom map tile layers, demographic data overlays from census APIs, predictive modeling for traffic and population density, and collaborative annotation features. Built on Mapbox GL JS with custom shader effects for stunning data representation.', category: 'Data Viz', techs: ['React', 'Mapbox GL', 'Python', 'PostGIS', 'Deck.gl'], featured: false, liveUrl: '#', githubUrl: '#', images: [], color: '#059669' },
-    { id: 'p6', title: 'SonicWave', description: 'Music production platform with browser-based DAW capabilities, AI-assisted composition, and a marketplace for beats and samples.', fullDescription: 'SonicWave is a browser-based music production studio that brings professional DAW capabilities to the web. Features include a multi-track editor with MIDI support, AI-assisted melody and chord progression generation, a comprehensive effects rack, and a marketplace where producers can sell beats and samples. The audio engine is built on the Web Audio API with custom DSP algorithms for low-latency processing.', category: 'Web App', techs: ['Svelte', 'Web Audio API', 'Rust/WASM', 'Supabase', 'Stripe'], featured: false, liveUrl: '#', githubUrl: '#', images: [], color: '#e11d48' }
+    { id: 'p1', title: 'Loup Garou Online', description: 'A multiplayer social deduction game inspired by Werewolf, featuring modern gameplay, real-time interactions, and an immersive user experience.', fullDescription: 'Loup Garou Online brings the classic Werewolf party game to the browser with real-time multiplayer sessions. Players join rooms, get assigned secret roles, and play through day/night cycles with live updates powered by Firebase, all wrapped in a clean, modern interface designed for an immersive social experience.', category: 'Game', techs: ['JavaScript', 'Firebase', 'HTML', 'CSS'], featured: true, comingSoon: false, liveUrl: 'https://loup-garou-game-beta.vercel.app/', githubUrl: '', images: [], color: '#7c3aed' },
+    { id: 'p2', title: 'MarketHub', description: 'A modern multi-category marketplace platform where users can buy, sell, and manage products across different categories.', fullDescription: 'MarketHub is a full-featured marketplace platform that lets users list, browse, and manage products across multiple categories. Built with a modern stack combining Next.js and TypeScript on the frontend with Firebase and Supabase powering data and auth, it aims to deliver a smooth buying and selling experience.', category: 'Web App', techs: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Firebase', 'Supabase'], featured: true, comingSoon: true, liveUrl: 'https://markethub-firebase1.vercel.app/', githubUrl: '', images: [], color: '#ff6a00' },
+    { id: 'p3', title: 'Personal Portfolio', description: 'My personal portfolio showcasing my projects, skills, and experience with a clean, modern, and responsive design.', fullDescription: 'A personal portfolio site built to showcase my projects, skills, and experience. Designed with a clean, modern aesthetic and fully responsive layout, built using Next.js, TypeScript, and Tailwind CSS.', category: 'Website', techs: ['Next.js', 'Tailwind CSS', 'TypeScript'], featured: true, comingSoon: false, liveUrl: 'https://portfolio-coral-three-ofmjgobi7c.vercel.app/', githubUrl: '', images: [], color: '#00d4aa' }
   ]
 };
 
-const ADMIN_PASSWORD = 'admin123';
+const ADMIN_PASSWORD = '@barcelona18052006@';
 
 function loadData() {
   try {
@@ -868,6 +890,7 @@ function projectCardHTML(p, i) {
       <div class="project-card-img" style="background:linear-gradient(135deg,${placeholderGrad}22,${placeholderGrad}44)">
         ${p.images && p.images[0] ? `<img src="${p.images[0]}" alt="${p.title}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;color:${placeholderGrad}"><i class="fas fa-folder-open"></i></div>`}
         ${p.featured ? '<span class="project-card-badge">Featured</span>' : ''}
+        ${p.comingSoon ? '<span class="project-card-badge-soon"><i class="fas fa-clock"></i> Coming Soon</span>' : ''}
       </div>
       <div class="project-card-body">
         <h3 class="project-card-title">${p.title}</h3>
@@ -951,6 +974,7 @@ function renderProjectDetail(projectId) {
     <a href="#projects" data-route="projects" class="detail-back" onclick="event.preventDefault();navigate('projects')"><i class="fas fa-arrow-left"></i> Back to Projects</a>
     ${p.images && p.images[0] ? `<img src="${p.images[0]}" alt="${p.title}" class="detail-hero-img">` : `<div class="detail-hero-img" style="background:linear-gradient(135deg,${placeholderGrad}22,${placeholderGrad}44);display:flex;align-items:center;justify-content:center;font-size:5rem;color:${placeholderGrad}"><i class="fas fa-folder-open"></i></div>`}
     <div class="detail-header">
+      ${p.comingSoon ? '<span class="detail-badge-soon"><i class="fas fa-clock"></i> Coming Soon</span>' : ''}
       <h1 class="detail-title">${p.title}</h1>
       <p class="detail-desc">${p.fullDescription || p.description}</p>
       <div class="detail-links">
@@ -996,6 +1020,7 @@ function populateAbout() {
   document.getElementById('aboutLocation').textContent = p.location;
   document.getElementById('aboutEmail').textContent = p.email;
   document.getElementById('aboutStatus').textContent = p.status;
+  document.getElementById('aboutPhone').textContent = p.phone;
 }
 
 /* ═══════════════════════════════════════
@@ -1031,6 +1056,7 @@ function populateContact() {
   const p = APP.data.profile;
   document.getElementById('contactEmail').textContent = p.email;
   document.getElementById('contactLocation').textContent = p.location;
+  document.getElementById('contactPhone').textContent = p.phone;
   renderSocialLinks();
 }
 
@@ -1225,6 +1251,8 @@ function initAdmin() {
     p.bio = document.getElementById('pBio').value;
     p.location = document.getElementById('pLocation').value;
     p.email = document.getElementById('pEmail').value;
+    p.phone = document.getElementById('pPhone').value;
+    p.status = document.getElementById('pStatus').value;
     p.years = document.getElementById('pYears').value;
     p.totalProjects = document.getElementById('pTotalProjects').value;
     p.totalClients = document.getElementById('pTotalClients').value;
@@ -1265,6 +1293,8 @@ function populateAdminProfile() {
   document.getElementById('pBio').value = p.bio;
   document.getElementById('pLocation').value = p.location;
   document.getElementById('pEmail').value = p.email;
+  document.getElementById('pPhone').value = p.phone;
+  document.getElementById('pStatus').value = p.status;
   document.getElementById('pYears').value = p.years;
   document.getElementById('pTotalProjects').value = p.totalProjects;
   document.getElementById('pTotalClients').value = p.totalClients;
