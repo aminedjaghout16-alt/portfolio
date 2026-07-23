@@ -798,6 +798,45 @@ ul{list-style:none}
 /* ═══════════════════════════════════════
    DATA STORE & DEFAULT DATA
    ═══════════════════════════════════════ */
+function createProjectMockupImage(title, accent, subtitle, statLabel, statValue) {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+      <rect width="1200" height="760" rx="40" fill="#060816"/>
+      <rect x="28" y="28" width="1144" height="704" rx="28" fill="#0f172a" stroke="${accent}" stroke-width="2"/>
+      <rect x="70" y="80" width="1060" height="64" rx="16" fill="#111827"/>
+      <rect x="94" y="100" width="180" height="18" rx="9" fill="${accent}" opacity="0.95"/>
+      <rect x="290" y="100" width="90" height="14" rx="7" fill="#94a3b8"/>
+      <rect x="400" y="100" width="90" height="14" rx="7" fill="#94a3b8"/>
+      <rect x="980" y="88" width="110" height="38" rx="19" fill="${accent}" opacity="0.2"/>
+      <rect x="70" y="176" width="300" height="220" rx="24" fill="#111827" stroke="#334155"/>
+      <rect x="94" y="202" width="140" height="16" rx="8" fill="#e2e8f0"/>
+      <rect x="94" y="232" width="220" height="14" rx="7" fill="#64748b"/>
+      <rect x="94" y="262" width="190" height="14" rx="7" fill="#64748b"/>
+      <rect x="94" y="292" width="170" height="14" rx="7" fill="#64748b"/>
+      <rect x="390" y="176" width="300" height="220" rx="24" fill="#111827" stroke="#334155"/>
+      <rect x="414" y="202" width="110" height="16" rx="8" fill="${accent}"/>
+      <rect x="414" y="238" width="220" height="14" rx="7" fill="#f8fafc"/>
+      <rect x="414" y="266" width="200" height="14" rx="7" fill="#64748b"/>
+      <rect x="710" y="176" width="300" height="220" rx="24" fill="#111827" stroke="#334155"/>
+      <rect x="734" y="202" width="150" height="16" rx="8" fill="#e2e8f0"/>
+      <rect x="734" y="238" width="180" height="14" rx="7" fill="#64748b"/>
+      <rect x="734" y="266" width="140" height="14" rx="7" fill="#64748b"/>
+      <rect x="70" y="430" width="940" height="240" rx="24" fill="#111827" stroke="#334155"/>
+      <rect x="100" y="462" width="220" height="18" rx="9" fill="${accent}"/>
+      <rect x="100" y="500" width="320" height="14" rx="7" fill="#e2e8f0"/>
+      <rect x="100" y="530" width="260" height="14" rx="7" fill="#64748b"/>
+      <rect x="100" y="560" width="300" height="14" rx="7" fill="#64748b"/>
+      <rect x="810" y="460" width="150" height="92" rx="18" fill="${accent}" opacity="0.18"/>
+      <rect x="840" y="490" width="90" height="16" rx="8" fill="${accent}"/>
+      <circle cx="880" cy="532" r="12" fill="${accent}"/>
+      <text x="100" y="656" font-family="Segoe UI, Arial, sans-serif" font-size="38" fill="#f8fafc">${title}</text>
+      <text x="100" y="690" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#94a3b8">${subtitle}</text>
+      <rect x="860" y="620" width="140" height="38" rx="19" fill="${accent}" opacity="0.88"/>
+      <text x="900" y="646" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#fff">${statLabel}: ${statValue}</text>
+    </svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
 const DEFAULT_DATA = {
   profile: {
     name: 'Amine Djaghout',
@@ -857,9 +896,9 @@ const DEFAULT_DATA = {
     { platform: 'Portfolio', icon: 'fa-solid fa-globe', url: 'https://portfolio-coral-three-ofmjgobi7c.vercel.app/' }
   ],
   projects: [
-    { id: 'p1', title: 'Loup Garou Online', description: 'A multiplayer social deduction game inspired by Werewolf, featuring modern gameplay, real-time interactions, and an immersive user experience.', fullDescription: 'Loup Garou Online brings the classic Werewolf party game to the browser with real-time multiplayer sessions. Players join rooms, get assigned secret roles, and play through day/night cycles with live updates powered by Firebase, all wrapped in a clean, modern interface designed for an immersive social experience.', category: 'Game', techs: ['JavaScript', 'Firebase', 'HTML', 'CSS'], featured: true, comingSoon: false, liveUrl: 'https://loup-garou-game-beta.vercel.app/', githubUrl: '', images: [], color: '#7c3aed' },
-    { id: 'p2', title: 'MarketHub', description: 'A modern multi-category marketplace platform where users can buy, sell, and manage products across different categories.', fullDescription: 'MarketHub is a full-featured marketplace platform that lets users list, browse, and manage products across multiple categories. Built with a modern stack combining Next.js and TypeScript on the frontend with Firebase and Supabase powering data and auth, it aims to deliver a smooth buying and selling experience.', category: 'Web App', techs: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Firebase', 'Supabase'], featured: true, comingSoon: true, liveUrl: 'https://markethub-firebase1.vercel.app/', githubUrl: '', images: [], color: '#ff6a00' },
-    { id: 'p3', title: 'Personal Portfolio', description: 'My personal portfolio showcasing my projects, skills, and experience with a clean, modern, and responsive design.', fullDescription: 'A personal portfolio site built to showcase my projects, skills, and experience. Designed with a clean, modern aesthetic and fully responsive layout, built using Next.js, TypeScript, and Tailwind CSS.', category: 'Website', techs: ['Next.js', 'Tailwind CSS', 'TypeScript'], featured: true, comingSoon: false, liveUrl: 'https://portfolio-coral-three-ofmjgobi7c.vercel.app/', githubUrl: '', images: [], color: '#00d4aa' }
+    { id: 'p1', title: 'Loup Garou Online', description: 'A multiplayer social deduction game inspired by Werewolf, featuring modern gameplay, real-time interactions, and an immersive user experience.', fullDescription: 'Loup Garou Online brings the classic Werewolf party game to the browser with real-time multiplayer sessions. Players join rooms, get assigned secret roles, and play through day/night cycles with live updates powered by Firebase, all wrapped in a clean, modern interface designed for an immersive social experience.', category: 'Game', techs: ['JavaScript', 'Firebase', 'HTML', 'CSS'], featured: true, comingSoon: false, liveUrl: 'https://loup-garou-game-beta.vercel.app/', githubUrl: '', images: [createProjectMockupImage('Loup Garou Online', '#7c3aed', 'Lobby, roles, and live game flow', 'Players', '12'), createProjectMockupImage('Loup Garou Online', '#8b5cf6', 'Night/day round UI', 'Rounds', '3'), createProjectMockupImage('Loup Garou Online', '#a78bfa', 'Responsive game board', 'Status', 'Live')], highlights: ['Real-time room creation and lobby matchmaking', 'Role assignment and round-based game flow', 'Polished responsive UI designed for quick social play'], color: '#7c3aed' },
+    { id: 'p2', title: 'MarketHub', description: 'A modern multi-category marketplace platform where users can buy, sell, and manage products across different categories.', fullDescription: 'MarketHub is a full-featured marketplace platform that lets users list, browse, and manage products across multiple categories. Built with a modern stack combining Next.js and TypeScript on the frontend with Firebase and Supabase powering data and auth, it aims to deliver a smooth buying and selling experience.', category: 'Web App', techs: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Firebase', 'Supabase'], featured: true, comingSoon: true, liveUrl: 'https://markethub-firebase1.vercel.app/', githubUrl: '', images: [createProjectMockupImage('MarketHub', '#ff6a00', 'Marketplace dashboard', 'Listings', '24'), createProjectMockupImage('MarketHub', '#fb923c', 'Product detail experience', 'Views', '1.2k'), createProjectMockupImage('MarketHub', '#fdba74', 'Mobile-friendly browsing', 'Users', '320')], highlights: ['Modern marketplace browsing with category-first discovery', 'Product detail and listing workflows built for conversions', 'Responsive experience tuned for desktop and mobile'], color: '#ff6a00' },
+    { id: 'p3', title: 'Personal Portfolio', description: 'My personal portfolio showcasing my projects, skills, and experience with a clean, modern, and responsive design.', fullDescription: 'A personal portfolio site built to showcase my projects, skills, and experience. Designed with a clean, modern aesthetic and fully responsive layout, built using Next.js, TypeScript, and Tailwind CSS.', category: 'Website', techs: ['Next.js', 'Tailwind CSS', 'TypeScript'], featured: true, comingSoon: false, liveUrl: 'https://portfolio-coral-three-ofmjgobi7c.vercel.app/', githubUrl: '', images: [createProjectMockupImage('Personal Portfolio', '#00d4aa', 'Hero and project showcase', 'Visitors', '500+'), createProjectMockupImage('Personal Portfolio', '#34d399', 'About and contact experience', 'Messages', '12'), createProjectMockupImage('Personal Portfolio', '#5eead4', 'Smooth animated sections', 'Focus', 'Fast')], highlights: ['Elegant one-page experience with smooth animated transitions', 'Project cards and filters for quick browsing', 'Mobile-first presentation with clear calls to action'], color: '#00d4aa' }
   ]
 };
 
@@ -1152,7 +1191,13 @@ function renderProjectDetail(projectId) {
         ${(p.techs||[]).map(t => `<span class="detail-tech-tag">${t}</span>`).join('')}
       </div>
     </div>
-    ${(p.images && p.images.length > 1) ? `<div class="detail-section"><h3><i class="fas fa-images"></i> Screenshots</h3><div class="detail-screenshots">${p.images.map(img => `<img src="${img}" alt="Screenshot" loading="lazy">`).join('')}</div></div>` : ''}
+    ${(p.highlights && p.highlights.length) ? `<div class="detail-section">
+      <h3><i class="fas fa-star"></i> Project Highlights</h3>
+      <div class="detail-features">
+        ${(p.highlights).map(f => `<div class="detail-feature"><i class="fas fa-check"></i> ${f}</div>`).join('')}
+      </div>
+    </div>` : ''}
+    ${(p.images && p.images.length > 1) ? `<div class="detail-section"><h3><i class="fas fa-images"></i> UI Preview</h3><div class="detail-screenshots">${p.images.map(img => `<img src="${img}" alt="Project preview" loading="lazy">`).join('')}</div></div>` : ''}
   `;
 }
 
